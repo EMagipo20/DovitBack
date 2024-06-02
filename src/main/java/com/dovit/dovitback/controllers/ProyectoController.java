@@ -34,7 +34,7 @@ public class ProyectoController {
         ModelMapper c = new ModelMapper();
         Proyectos p = c.map(proyectoDto, Proyectos.class);
 
-        // Obtener y asignar la organización
+        //Obtener y asignar la organización
         Organizacion organizacion = oS.ListarId(proyectoDto.getOrganizacionBeneficaId());
         if (organizacion == null || organizacion.getId() == null) {
             return ResponseEntity.badRequest().body("Organización benéfica no encontrada");
