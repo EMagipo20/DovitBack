@@ -10,5 +10,6 @@ public class DonanteDto {
     private String departamento;
     private String distrito;
     private String direccion;
+    //FK
     private Integer UsuarioId;
 }

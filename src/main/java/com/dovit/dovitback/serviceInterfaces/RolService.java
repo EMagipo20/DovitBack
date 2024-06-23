@@ -4,7 +4,7 @@ import com.dovit.dovitback.model.Rol;
 import java.util.List;
 
 public interface RolService {
-    public void insert(Rol rol);
+    Rol insert(Rol rol);
 
     public List<Rol> list();
 

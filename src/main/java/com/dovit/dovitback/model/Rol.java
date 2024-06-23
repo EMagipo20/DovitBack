@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 
 @Entity
-public class Rol implements Serializable{
+public class Rol implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idRol")
@@ -40,8 +40,8 @@ public class Rol implements Serializable{
         this.rol = rol;
     }
 
-    //Relaciones
-    @ManyToOne
+    // Relaciones
+    @ManyToOne(optional = false)  // Asegúrate de que esta relación no sea opcional
     @JoinColumn(name = "idUsuario", nullable = false)
     private Usuario user;
 }

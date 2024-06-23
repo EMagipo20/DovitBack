@@ -2,11 +2,13 @@ package com.dovit.dovitback.controllers;
 
 import com.dovit.dovitback.dtos.ComentariosDto;
 import com.dovit.dovitback.model.Comentarios;
+import com.dovit.dovitback.model.Donaciones;
 import com.dovit.dovitback.model.Donante;
 import com.dovit.dovitback.model.Proyectos;
 import com.dovit.dovitback.serviceImplements.ComentariosImplements;
 import com.dovit.dovitback.serviceImplements.DonanteServiceImplements;
 import com.dovit.dovitback.serviceImplements.ProyectoServiceImplements;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -37,50 +39,17 @@ public class ComentariosController {
 
     @PostMapping("/Agregar")
     public ResponseEntity<String> insertar(@RequestBody ComentariosDto comentariosDto) {
-        //Obtener y asignar el proyecto
-        Proyectos proyecto = proyectoServiceImplements.ListarId(comentariosDto.getProyectoId());
-        if (proyecto == null || proyecto.getId() == null) {
-            return ResponseEntity.badRequest().body("Proyecto no encontrado");
-        }
-
-        //Obtener y asignar el donante
-        Donante donante = donanteServiceImplements.ListarId(comentariosDto.getDonanteId());
-        if (donante == null || donante.getId() == null) {
-            return ResponseEntity.badRequest().body("Donante no encontrado");
-        }
-
-        Comentarios comentario = new Comentarios();
-        comentario.setTitulo(comentariosDto.getTitulo());
-        comentario.setDescripcion(comentariosDto.getDescripcion());
-        comentario.setProyecto(proyecto);
-        comentario.setDonante(donante);
-
-        comentariosServiceImplements.Insert(comentario);
+        ModelMapper modelMapper = new ModelMapper();
+        Comentarios comentarios = modelMapper.map(comentariosDto, Comentarios.class);
+        comentariosServiceImplements.Insert(comentarios);
         return ResponseEntity.ok("Comentario creado exitosamente");
     }
 
     @PutMapping("/Actualizar")
     public ResponseEntity<String> actualizar(@RequestBody ComentariosDto comentariosDto) {
-        // Obtener y asignar el proyecto
-        Proyectos proyecto = proyectoServiceImplements.ListarId(comentariosDto.getProyectoId());
-        if (proyecto == null || proyecto.getId() == null) {
-            return ResponseEntity.badRequest().body("Proyecto no encontrado");
-        }
-
-        // Obtener y asignar el donante
-        Donante donante = donanteServiceImplements.ListarId(comentariosDto.getDonanteId());
-        if (donante == null || donante.getId() == null) {
-            return ResponseEntity.badRequest().body("Donante no encontrado");
-        }
-
-        Comentarios comentario = new Comentarios();
-        comentario.setId(comentariosDto.getId());
-        comentario.setTitulo(comentariosDto.getTitulo());
-        comentario.setDescripcion(comentariosDto.getDescripcion());
-        comentario.setProyecto(proyecto);
-        comentario.setDonante(donante);
-
-        comentariosServiceImplements.Update(comentario);
+        ModelMapper modelMapper = new ModelMapper();
+        Comentarios comentarios = modelMapper.map(comentariosDto, Comentarios.class);
+        comentariosServiceImplements.Update(comentarios);
         return ResponseEntity.ok("Comentario actualizado exitosamente");
     }
 

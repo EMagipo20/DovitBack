@@ -25,8 +25,13 @@ public class Usuario {
     private Boolean enabled;
 
     @Column(name = "fechaRegistro")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date fechaRegistro;
+
+    @PrePersist
+    protected void onCreate() {
+        fechaRegistro = new Date();
+    }
 
     // Relaciones
     @OneToOne(mappedBy = "usuario")
@@ -47,14 +52,6 @@ public class Usuario {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     public String getPassword() {
         return password;
     }
@@ -62,6 +59,10 @@ public class Usuario {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public String getUsername() { return username; }
+
+    public void setUsername(String username) { this.username = username; }
 
     public String getEmail() { return email; }
 
@@ -81,5 +82,29 @@ public class Usuario {
 
     public void setRoles(List<Rol> roles) {
         this.rol = roles;
+    }
+
+    public Date getFechaRegistro() {
+        return fechaRegistro;
+    }
+
+    public void setFechaRegistro(Date fechaRegistro) {
+        this.fechaRegistro = fechaRegistro;
+    }
+
+    public Donante getDonante() {
+        return donante;
+    }
+
+    public void setDonante(Donante donante) {
+        this.donante = donante;
+    }
+
+    public Organizacion getOrganizacion() {
+        return organizacion;
+    }
+
+    public void setOrganizacion(Organizacion organizacion) {
+        this.organizacion = organizacion;
     }
 }

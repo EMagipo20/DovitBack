@@ -34,17 +34,6 @@ public class ForosController {
     public ResponseEntity<String> Registrar(@RequestBody ForosDto forosDto) {
         ModelMapper c = new ModelMapper();
         Foros f = c.map(forosDto, Foros.class);
-
-        //Obtener y asignar el proyecto
-        Proyectos proyecto = pSI.ListarId(forosDto.getProyectoId());
-        if (proyecto == null || proyecto.getId() == null) {
-            return ResponseEntity.badRequest().body("Proyecto no encontrado");
-        }
-
-        Foros foros = new Foros();
-        foros.setTitulo(forosDto.getTitulo());
-        foros.setProyecto(proyecto);
-
         fI.insertarForo(f);
         return ResponseEntity.ok("Foro creado exitosamente");
     }

@@ -29,9 +29,6 @@ public class Organizacion {
     @Column(name = "direccion")
     private String direccion;
 
-    @Column(name = "cantidadProyectos")
-    private int cantidadProyectos;
-
     @Column(name = "nombreRepresentante")
     private String nombreRepresentante;
 

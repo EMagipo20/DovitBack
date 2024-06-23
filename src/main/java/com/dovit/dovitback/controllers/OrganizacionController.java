@@ -28,41 +28,14 @@ public class OrganizacionController {
     public ResponseEntity<String> registrar(@RequestBody OrganizacionDto dto) {
         ModelMapper modelMapper = new ModelMapper();
         Organizacion organizacion = modelMapper.map(dto, Organizacion.class);
-
-        // Obtener y asignar el usuario
-        Usuario usuario = uS.listarId(dto.getUsuarioId());
-        if (usuario == null) {
-            return ResponseEntity.badRequest().body("Usuario no encontrado");
-        }
-        organizacion.setUsuario(usuario);
-
         oS.Insertar(organizacion);
         return ResponseEntity.ok("Organizacion creada exitosamente");
     }
 
     @PutMapping("/Actualizar")
     public ResponseEntity<String> actualizar(@RequestBody OrganizacionDto dto) {
-        Organizacion organizacion = oS.ListarId(dto.getId());
-        if (organizacion == null) {
-            return ResponseEntity.badRequest().body("Organización no encontrada");
-        }
-
-        organizacion.setNombreOrganizacion(dto.getNombreOrganizacion());
-        organizacion.setDepartamento(dto.getDepartamento());
-        organizacion.setDistrito(dto.getDistrito());
-        organizacion.setDireccion(dto.getDireccion());
-        organizacion.setCantidadProyectos(dto.getCantidadProyectos());
-        organizacion.setNombreRepresentante(dto.getNombreRepresentante());
-        organizacion.setNumeroTelefonicoRepresentante(dto.getNumeroTelefonicoRepresentante());
-        organizacion.setCorreoElectronicoRepresentante(dto.getCorreoElectronicoRepresentante());
-
-        // Obtener y asignar el usuario
-        Usuario usuario = uS.listarId(dto.getUsuarioId());
-        if (usuario == null) {
-            return ResponseEntity.badRequest().body("Usuario no encontrado");
-        }
-        organizacion.setUsuario(usuario);
-
+        ModelMapper modelMapper = new ModelMapper();
+        Organizacion organizacion = modelMapper.map(dto, Organizacion.class);
         oS.Actualizar(organizacion);
         return ResponseEntity.ok("Organización actualizada exitosamente");
     }
@@ -76,7 +49,6 @@ public class OrganizacionController {
             dto.setDepartamento(org.getDepartamento());
             dto.setDistrito(org.getDistrito());
             dto.setDireccion(org.getDireccion());
-            dto.setCantidadProyectos(org.getCantidadProyectos());
             dto.setNombreRepresentante(org.getNombreRepresentante());
             dto.setNumeroTelefonicoRepresentante(org.getNumeroTelefonicoRepresentante());
             dto.setCorreoElectronicoRepresentante(org.getCorreoElectronicoRepresentante());
@@ -95,7 +67,6 @@ public class OrganizacionController {
             dto.setDepartamento(org.getDepartamento());
             dto.setDistrito(org.getDistrito());
             dto.setDireccion(org.getDireccion());
-            dto.setCantidadProyectos(org.getCantidadProyectos());
             dto.setNombreRepresentante(org.getNombreRepresentante());
             dto.setNumeroTelefonicoRepresentante(org.getNumeroTelefonicoRepresentante());
             dto.setCorreoElectronicoRepresentante(org.getCorreoElectronicoRepresentante());

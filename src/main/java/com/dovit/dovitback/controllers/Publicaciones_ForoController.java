@@ -7,6 +7,7 @@ import com.dovit.dovitback.model.Publicaciones_Foro;
 import com.dovit.dovitback.serviceImplements.ForosImplements;
 import com.dovit.dovitback.serviceImplements.OrganizacionServiceImplements;
 import com.dovit.dovitback.serviceInterfaces.Publicaciones_ForoServiceInterface;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -37,26 +38,9 @@ public class Publicaciones_ForoController {
 
     @PostMapping("/Agregar")
     public ResponseEntity<String> Registrar(@RequestBody Publicaciones_ForoDto dto) {
-        // Crear y asignar la organización
-        Organizacion organizacion = oS.ListarId(dto.getOrganizacionId());
-        if (organizacion == null || organizacion.getId() == null) {
-            return ResponseEntity.badRequest().body("Organización benéfica no encontrada");
-        }
-
-        // Crear y asignar el foro
-        Foros foros = fI.ListarId(dto.getForosId());
-        if (foros == null || foros.getId() == null) {
-            return ResponseEntity.badRequest().body("Foro no encontrado");
-        }
-
-        // Mapear Publicaciones_ForoDto a Publicaciones_Foro
-        Publicaciones_Foro p = new Publicaciones_Foro();
-        p.setTitulo(dto.getTitulo());
-        p.setContenido(dto.getContenido());
-        p.setOrganizacion(organizacion);
-        p.setForos(foros);
-
-        pS.Insert(p);
+        ModelMapper modelMapper = new ModelMapper();
+        Publicaciones_Foro publicaciones_foro = modelMapper.map(dto, Publicaciones_Foro.class);
+        pS.Insert(publicaciones_foro);
         return ResponseEntity.ok().body("Publicación de foro creada exitosamente");
     }
 

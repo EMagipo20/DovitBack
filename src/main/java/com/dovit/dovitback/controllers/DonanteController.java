@@ -2,9 +2,11 @@ package com.dovit.dovitback.controllers;
 
 import com.dovit.dovitback.dtos.DonanteDto;
 import com.dovit.dovitback.model.Donante;
+import com.dovit.dovitback.model.Organizacion;
 import com.dovit.dovitback.model.Usuario;
 import com.dovit.dovitback.serviceImplements.DonanteServiceImplements;
 import com.dovit.dovitback.serviceImplements.UsuarioServiceImplements;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -25,44 +27,16 @@ public class DonanteController {
 
     @PostMapping("/Agregar")
     public ResponseEntity<String> registrar(@RequestBody DonanteDto dto) {
-        Donante donante = new Donante();
-        donante.setNombreCompleto(dto.getNombreCompleto());
-        donante.setContactoTelefonico(dto.getContactoTelefonico());
-        donante.setDepartamento(dto.getDepartamento());
-        donante.setDistrito(dto.getDistrito());
-        donante.setDireccion(dto.getDireccion());
-
-        // Obtener y asignar el usuario
-        Usuario usuario = uS.listarId(dto.getUsuarioId());
-        if (usuario == null) {
-            return ResponseEntity.badRequest().body("Usuario no encontrado");
-        }
-        donante.setUsuario(usuario);
-
+        ModelMapper modelMapper = new ModelMapper();
+        Donante donante = modelMapper.map(dto, Donante.class);
         dS.Insert(donante);
-        return ResponseEntity.ok("Donante creado exitosamente");
+        return ResponseEntity.ok("Organizacion creada exitosamente");
     }
 
     @PutMapping("/Actualizar")
     public ResponseEntity<String> actualizar(@RequestBody DonanteDto dto) {
-        Donante donante = dS.ListarId(dto.getId());
-        if (donante == null) {
-            return ResponseEntity.badRequest().body("Donante no encontrado");
-        }
-
-        donante.setNombreCompleto(dto.getNombreCompleto());
-        donante.setContactoTelefonico(dto.getContactoTelefonico());
-        donante.setDepartamento(dto.getDepartamento());
-        donante.setDistrito(dto.getDistrito());
-        donante.setDireccion(dto.getDireccion());
-
-        // Obtener y asignar el usuario
-        Usuario usuario = uS.listarId(dto.getUsuarioId());
-        if (usuario == null) {
-            return ResponseEntity.badRequest().body("Usuario no encontrado");
-        }
-        donante.setUsuario(usuario);
-
+        ModelMapper modelMapper = new ModelMapper();
+        Donante donante = modelMapper.map(dto, Donante.class);
         dS.Update(donante);
         return ResponseEntity.ok("Donante actualizado exitosamente");
     }
@@ -70,9 +44,6 @@ public class DonanteController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> eliminar(@PathVariable("id") Long id) {
         Donante donante = dS.ListarId(id);
-        if (donante == null) {
-            return ResponseEntity.badRequest().body("Donante no encontrado");
-        }
         dS.Delete(id);
         return ResponseEntity.ok("Donante eliminado exitosamente");
     }

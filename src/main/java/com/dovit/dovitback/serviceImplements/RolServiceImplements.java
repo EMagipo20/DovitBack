@@ -14,22 +14,22 @@ public class RolServiceImplements implements RolService {
     private RolRepository rR;
 
     @Override
-    public void insert(Rol rol) {
-        rR.save(rol);
+    public Rol insert(Rol rol) {
+        return rR.save(rol); // Asegúrate de devolver el rol guardado
+    }
+
+    @Override
+    public void delete(int id) {
+        rR.deleteById(id);
+    }
+
+    @Override
+    public Rol listarId(int id) {
+        return rR.findById(id).orElse(null);
     }
 
     @Override
     public List<Rol> list() {
-        return rR.findAll();
-    }
-
-    @Override
-    public void delete(int idRol) {
-        rR.deleteById(idRol);
-    }
-
-    @Override
-    public Rol listarId(int idRol) {
-        return rR.findById(idRol).orElse(new Rol());
+        return (List<Rol>) rR.findAll();
     }
 }

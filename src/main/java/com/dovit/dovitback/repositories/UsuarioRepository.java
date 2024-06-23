@@ -12,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 public interface UsuarioRepository extends CrudRepository<Usuario, Integer> {
     public Usuario findByUsername(String username);
 
+    boolean existsByUsername(String username);
+
     //BUSCAR POR NOMBRE
     @Query("select count(u.username) from Usuario u where u.username =:username")
     public int buscarUsername(@Param("username") String nombre);

@@ -5,11 +5,15 @@ import com.dovit.dovitback.model.Usuario;
 import java.util.List;
 
 public interface UsuarioService {
-    public void insert(Usuario usuario);
+    Usuario insert(Usuario usuario);
 
     public List<Usuario> list();
 
     public void delete(int idUsuario);
 
     public Usuario listarId(int idUsuario);
+
+    Usuario findByUsername(String username);
+
+    boolean existsByUsername(String username);
 }

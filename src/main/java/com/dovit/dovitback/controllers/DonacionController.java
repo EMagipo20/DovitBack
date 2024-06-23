@@ -36,21 +36,6 @@ public class DonacionController {
     public ResponseEntity<String> registrar(@RequestBody DonacionDto donacionDto) {
         ModelMapper modelMapper = new ModelMapper();
         Donaciones donacion = modelMapper.map(donacionDto, Donaciones.class);
-
-        // Obtener y asignar el donante
-        Donante donante = dSI.ListarId(donacionDto.getDonanteId());
-        if (donante == null || donante.getId() == null) {
-            return ResponseEntity.badRequest().body("Donante no encontrado");
-        }
-        donacion.setDonante(donante);
-
-        // Obtener y asignar el proyecto
-        Proyectos proyecto = pSI.ListarId(donacionDto.getProyectoId());
-        if (proyecto == null || proyecto.getId() == null) {
-            return ResponseEntity.badRequest().body("Proyecto no encontrado");
-        }
-        donacion.setProyectos(proyecto);
-
         donacionServiceImplements.InsertarDonacion(donacion);
         return ResponseEntity.ok("Donacion creada exitosamente");
     }

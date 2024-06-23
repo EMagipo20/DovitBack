@@ -9,7 +9,6 @@ public class OrganizacionDto {
     private String departamento;
     private String distrito;
     private String direccion;
-    private int cantidadProyectos;
     private String nombreRepresentante;
     private String numeroTelefonicoRepresentante;
     private String correoElectronicoRepresentante;
